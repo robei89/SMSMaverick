@@ -90,7 +90,7 @@ public class MainActivity extends Activity {
 		super.onRestart();
 
 		// remove old callback
-		mHandler.removeCallbacks(updateGUI);
+//		mHandler.removeCallbacks(updateGUI);
 
 	}
 
