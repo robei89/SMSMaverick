@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="phone"
-        android:text="@string/phoneNumber_hint" 
+        android:text="@string/phonenumber" 
         android:hint="@string/phoneNumber_hint" >
 
         <requestFocus />

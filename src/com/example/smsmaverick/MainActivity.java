@@ -56,7 +56,6 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		// get all resources
-		// myMessage = getString(R.string.message);
 		valueText = (TextView) findViewById(R.id.timedelay);
 		valueCharacter = (TextView) findViewById(R.id.nbrCharactersTitle);
 		timesetup = (SeekBar) findViewById(R.id.timesetup);
@@ -116,9 +115,6 @@ public class MainActivity extends Activity {
 		Character = SBListener.getSeekBarValue(charactersetup);
 		mHandler.removeCallbacks(updateGUI);
 		Counter = 0;
-
-		Integer size = (int) (long) Character;
-		myMessage = getFilledString(size, 'a');
 
 		// check if number of messages not empty or 0
 		if (mNumberMessages.getText().toString().trim().length() > 0) {
