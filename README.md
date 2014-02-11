@@ -1,4 +1,0 @@
-SMSMaverick
-===========
-
-Spam SMS
