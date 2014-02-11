@@ -1,0 +1,162 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:orientation="vertical" >
+
+    <!-- SeekBar title -->
+
+    <TextView
+        android:id="@+id/timedelay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="0dp"
+        android:text="@string/timedelay" />
+
+    <!-- timedelay setup -->
+
+    <SeekBar
+        android:id="@+id/timesetup"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:max="400" />
+
+    <!-- phonenumber title -->
+
+    <TextView
+        android:id="@+id/phonetitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/phonetitle" />
+
+    <!-- phonenumber -->
+
+    <EditText
+        android:id="@+id/phonenumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="phone"
+        android:text="@string/phoneNumber_hint" 
+        android:hint="@string/phoneNumber_hint" >
+
+        <requestFocus />
+    </EditText>
+
+    <!-- number of messages title -->
+
+    <TextView
+        android:id="@+id/nbrMessagesTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/nbrMessagesTitle" />
+
+    <!-- number of messages -->
+
+    <EditText
+        android:id="@+id/nbrMessages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/nbrMessagesHint"
+        android:inputType="number" >
+
+        <requestFocus />
+    </EditText>
+
+    <!-- number of characters title -->
+
+    <TextView
+        android:id="@+id/nbrCharactersTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/nbrCharactersTitle" />
+
+    <!-- SeekBar number of characters -->
+
+    <SeekBar
+        android:id="@+id/characterSetup"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:max="158" />
+
+    <TextView
+        android:id="@+id/Location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/Location" />
+
+    <com.example.smsmaverick.NumberPicker
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" />
+
+    <!-- placeholder -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:text="" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="4dip"
+            android:background="?android:attr/dividerVertical" />
+
+        <View
+            android:id="@+id/ViewColorPickerHelper"
+            android:layout_width="1dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="4dip"
+            android:layout_marginTop="4dip"
+            android:background="?android:attr/dividerVertical" />
+
+        <!-- button to send the SMS -->
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@id/ViewColorPickerHelper"
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="sendMessages"
+            android:text="@string/button_send" />
+
+        <!-- button to stop sending -->
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/ViewColorPickerHelper"
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="stopSend"
+            android:text="@string/button_stop" />
+    </RelativeLayout>
+
+</LinearLayout>
