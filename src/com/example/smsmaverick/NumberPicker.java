@@ -92,7 +92,7 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
     private String[] mDisplayedValues;
     protected int mStart;
     protected int mEnd;
-    protected static int mCurrent;
+    protected int mCurrent;
     protected int mPrevious;
     private OnChangedListener mListener;
     private Formatter mFormatter;
@@ -109,7 +109,6 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
         this(context, attrs, 0);
     }
 
-    @SuppressWarnings({"UnusedDeclaration"})
     public NumberPicker(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs);
         setOrientation(VERTICAL);

@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -22,6 +23,9 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
+	// preferences
+	public static final String PREFS_NAME = "MyPrefsFile";
+
 	// class variables
 	private SeekBar timesetup;
 	private SeekBar charactersetup;
@@ -31,6 +35,7 @@ public class MainActivity extends Activity {
 	private SMS smsfunction;
 	private EditText mPhoneNumber;
 	private EditText mNumberMessages;
+	private EditText numberPicker;
 
 	private String sendTo;
 	private String myMessage;
@@ -62,6 +67,7 @@ public class MainActivity extends Activity {
 		charactersetup = (SeekBar) findViewById(R.id.characterSetup);
 		mPhoneNumber = (EditText) findViewById(R.id.phonenumber);
 		mNumberMessages = (EditText) findViewById(R.id.nbrMessages);
+		numberPicker = (EditText) findViewById(R.id.timepicker_input);
 
 		// create new Listener and SMS object
 		SBListener = new MySeekBarListener(valueText, valueCharacter,
@@ -74,6 +80,20 @@ public class MainActivity extends Activity {
 
 		// remove old callback
 		mHandler.removeCallbacks(updateGUI);
+
+		// Restore preferences
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+
+		// set the restored preferences
+		mPhoneNumber.setText(settings.getString("phone", ""));
+		mNumberMessages.setText(settings.getString("nMessages", ""));
+		valueText.setText(settings.getString("DelayTit",
+				"Delay between messages: 1 ms"));
+		valueCharacter.setText(settings.getString("CharacterTit",
+				"Number of characters: 2"));
+		timesetup.setProgress(settings.getInt("DelayValue", 0));
+		charactersetup.setProgress(settings.getInt("CharacterValue", 0));
+		numberPicker.setText(settings.getString("NumberPicker", ""));
 
 	}
 
@@ -97,8 +117,23 @@ public class MainActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 
+		// save preferences
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+		SharedPreferences.Editor editor = settings.edit();
+
+		editor.putString("phone", mPhoneNumber.getText().toString());
+		editor.putString("nMessages", mNumberMessages.getText().toString());
+		editor.putString("DelayTit", valueText.getText().toString());
+		editor.putString("CharacterTit", valueCharacter.getText().toString());
+		editor.putInt("DelayValue", timesetup.getProgress());
+		editor.putInt("CharacterValue", charactersetup.getProgress());
+		editor.putString("NumberPicker", numberPicker.getText().toString());
+
+		// Commit the edits!
+		editor.commit();
+
 		// remove old callback
-		mHandler.removeCallbacks(updateGUI);
+		// mHandler.removeCallbacks(updateGUI);
 
 	}
 
@@ -187,13 +222,12 @@ public class MainActivity extends Activity {
 			// create a String with defined length and create new SMS object and
 			// send it
 			Integer size = (int) (long) Character;
+			int locValue = Integer.parseInt(numberPicker.getText().toString());
 
-			if (NumberPicker.mCurrent < 10) {
-				myMessage = NumberPicker.mCurrent
-						+ getFilledString(size - 1, 'd');
+			if (locValue < 10) {
+				myMessage = locValue + getFilledString(size - 1, 'd');
 			} else {
-				myMessage = NumberPicker.mCurrent
-						+ getFilledString(size - 2, 'd');
+				myMessage = locValue + getFilledString(size - 2, 'd');
 			}
 
 			smsfunction.sendSMS(sendTo, myMessage);

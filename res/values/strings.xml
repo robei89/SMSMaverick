@@ -19,6 +19,6 @@
     <string name="nbrMessagesHint">10</string>
     <string name="nbrCharactersTitle">Number of characters: 2</string>
     <string name="Location">Location number:</string>
-    <string name="phoneNumber_hint">079123456</string>
+    <string name="phoneNumber_hint">0791234567</string>
 
 </resources>
