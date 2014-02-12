@@ -6,13 +6,12 @@
     <string name="button_send">send</string>
     <string name="text_abstract">This App sends 100 SMS to a defined Number.</string>
     <string name="phonenumber"></string>
-    <string name="timedelaytitle">Delay between messages:</string>
     <string name="dialog_message">100 SMS were sent</string>
     <string name="dialog_title">Information</string>
     <string name="ok">OK</string>
     <string name="message">i need coke</string>
     <string name="button_stop">stop</string>
-    <string name="timedelay">Delay between messages: 1 ms</string>
+    <string name="timedelay">Delay between messages: 100 ms</string>
     <string name="action_about">About</string>
     <string name="phonetitle">Please enter Phonenumber:</string>
     <string name="nbrMessagesTitle">Please enter the number of messages:</string>

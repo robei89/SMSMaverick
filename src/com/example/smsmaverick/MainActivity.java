@@ -12,10 +12,13 @@ import java.util.Arrays;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -29,10 +32,16 @@ public class MainActivity extends Activity {
 	// class variables
 	private SeekBar timesetup;
 	private SeekBar charactersetup;
+
+	private Button sendButton;
+
 	private TextView valueText;
 	private TextView valueCharacter;
+
 	private MySeekBarListener SBListener;
+
 	private SMS smsfunction;
+
 	private EditText mPhoneNumber;
 	private EditText mNumberMessages;
 	private EditText numberPicker;
@@ -68,6 +77,7 @@ public class MainActivity extends Activity {
 		mPhoneNumber = (EditText) findViewById(R.id.phonenumber);
 		mNumberMessages = (EditText) findViewById(R.id.nbrMessages);
 		numberPicker = (EditText) findViewById(R.id.timepicker_input);
+		sendButton = (Button) findViewById(R.id.sendButton);
 
 		// create new Listener and SMS object
 		SBListener = new MySeekBarListener(valueText, valueCharacter,
@@ -88,7 +98,7 @@ public class MainActivity extends Activity {
 		mPhoneNumber.setText(settings.getString("phone", ""));
 		mNumberMessages.setText(settings.getString("nMessages", ""));
 		valueText.setText(settings.getString("DelayTit",
-				"Delay between messages: 1 ms"));
+				"Delay between messages: 100 ms"));
 		valueCharacter.setText(settings.getString("CharacterTit",
 				"Number of characters: 2"));
 		timesetup.setProgress(settings.getInt("DelayValue", 0));
@@ -113,6 +123,18 @@ public class MainActivity extends Activity {
 
 	}
 
+	/**
+	 * This function makes no orientation change aviable
+	 */
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	}
+
+	/**
+	 * here is declared whats happend when the App is hidden.
+	 */
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -132,9 +154,6 @@ public class MainActivity extends Activity {
 		// Commit the edits!
 		editor.commit();
 
-		// remove old callback
-		// mHandler.removeCallbacks(updateGUI);
-
 	}
 
 	/**
@@ -151,34 +170,46 @@ public class MainActivity extends Activity {
 		mHandler.removeCallbacks(updateGUI);
 		Counter = 0;
 
+		sendButton.setEnabled(false);
+
 		// check if number of messages not empty or 0
 		if (mNumberMessages.getText().toString().trim().length() > 0) {
-			nbrMessages = Integer
-					.parseInt(mNumberMessages.getText().toString());
-			if (nbrMessages != 0) {
+			try {
+				nbrMessages = Integer.parseInt(mNumberMessages.getText()
+						.toString());
+				if (nbrMessages != 0) {
 
-				if (mPhoneNumber.getText().length() == nbrPhone) {
-					// get PhoneNumber and number of messages
-					sendTo = mPhoneNumber.getText().toString();
+					if (mPhoneNumber.getText().length() == nbrPhone) {
+						// get PhoneNumber and number of messages
+						sendTo = mPhoneNumber.getText().toString();
 
-					// call Callback function
-					mHandler.postDelayed(updateGUI, 0);
+						// call Callback function
+						mHandler.postDelayed(updateGUI, 0);
+
+					} else {
+
+						// toast: the PhoneNumber length is not ok
+						Context context = getApplicationContext();
+						CharSequence text = "Phonenumber not aviable";
+						Toast toast = Toast.makeText(context, text,
+								Toast.LENGTH_SHORT);
+						toast.show();
+					}
 
 				} else {
 
-					// toast: the PhoneNumber length is not ok
+					// toast: the number of messages is not correct
 					Context context = getApplicationContext();
-					CharSequence text = "Phonenumber not aviable";
+					CharSequence text = "No messages send. Please check number of messages.";
 					Toast toast = Toast.makeText(context, text,
 							Toast.LENGTH_SHORT);
 					toast.show();
 				}
+			} catch (Exception e) {
 
-			} else {
-
-				// toast: the number of messages is not correct
+				// toast: the number of messages is to long
 				Context context = getApplicationContext();
-				CharSequence text = "No messages send. Please check number of messages.";
+				CharSequence text = "No messages send. This are too many messages.";
 				Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
 				toast.show();
 			}
@@ -207,6 +238,9 @@ public class MainActivity extends Activity {
 		Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
 		toast.show();
 
+		// set sendButton visible on
+		sendButton.setEnabled(true);
+
 		// remove old callback
 		mHandler.removeCallbacks(updateGUI);
 	}
@@ -232,26 +266,27 @@ public class MainActivity extends Activity {
 
 			smsfunction.sendSMS(sendTo, myMessage);
 
-			// toast to display how much sms were sent
-			if (Counter == nbrMessages - 1) {
-
-				Context context = getApplicationContext();
-				CharSequence text = nbrMessages + " messages were sent";
-				Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
-				toast.show();
-			}
+			Context context = getApplicationContext();
+			CharSequence text = Counter + 1 + ". SMS";
+			Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+			toast.show();
 
 			// start new callback as long as the value NRMESSAGES
 			if (Counter < nbrMessages - 1) {
 
 				mHandler.postDelayed(this, DELAY);
+
 				Counter++;
+
+			} else if (Counter == nbrMessages - 1) {
+				// set sendButton visible on
+				sendButton.setEnabled(true);
 			}
 		}
 	};
 
 	/**
-	 * This Function creates a String with length and declared Char
+	 * This Function creates a String with wished length and declared Char
 	 * 
 	 * @param length
 	 * @param charToFill

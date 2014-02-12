@@ -46,7 +46,7 @@ public class MySeekBarListener implements OnSeekBarChangeListener {
 			boolean fromUser) {
 
 		// local variables
-		double linearValueTime = progress;
+		double linearValueTime = progress+200;
 		double linearValueCharacter = progress + 2;
 
 		// check if its SeekBar time or SeekBar Character
